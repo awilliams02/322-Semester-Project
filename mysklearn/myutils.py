@@ -336,7 +336,7 @@ def knn_nb_classifiers(X, y):
     for i in range(len(folds)):
         X_train, X_test, y_train, y_test = get_train_test_data(X, y, folds[i])
 
-        knn = myclassifiers.MyKNeighborsClassifier(n_neighbors=10)
+        knn = myclassifiers.MyKNeighborsClassifier(n_neighbors=100)
         knn.fit(X_train, y_train)
         y_pred_knn = knn.predict(X_test)
         knn_accuracy.append(myevaluation.accuracy_score(y_pred_knn, y_test))
