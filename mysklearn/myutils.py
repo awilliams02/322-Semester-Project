@@ -344,13 +344,13 @@ def knn_nb_classifiers(X, y):
             knn_y_actual.append(y_test[i])
             knn_y_pred.append(y_pred_knn[i])
         
-        nb = myclassifiers.MyNaiveBayesClassifier()
-        nb.fit(X_train, X_test)
-        y_pred_nb = nb.predict(X_test)
-        nb_accuracy.append(myevaluation.accuracy_score(y_pred_nb, y_test))
-        for i in range(len(y_test)):
-            nb_y_actual.append(y_test[i])
-            nb_y_pred.append(y_pred_nb[i])
+        #nb = myclassifiers.MyNaiveBayesClassifier()
+        #nb.fit(X_train, X_test)
+        #y_pred_nb = nb.predict(X_test)
+        #nb_accuracy.append(myevaluation.accuracy_score(y_pred_nb, y_test))
+        #for i in range(len(y_test)):
+        #    nb_y_actual.append(y_test[i])
+        #    nb_y_pred.append(y_pred_nb[i])
         
         dummy = myclassifiers.MyDummyClassifier()
         dummy.fit(X_train, y_train)
@@ -366,20 +366,22 @@ def knn_nb_classifiers(X, y):
     dummy_avg_acc = compute_mean(dummy_accuracy)
     dummy_error_rate = 1 - dummy_avg_acc
 
-    nb_avg_acc = compute_mean(nb_accuracy)
-    nb_error_rate = 1 - nb_avg_acc
+    #nb_avg_acc = compute_mean(nb_accuracy)
+    #nb_error_rate = 1 - nb_avg_acc
 
     knn_binary_ps = myevaluation.binary_precision_score(knn_y_actual, knn_y_pred)
-    nb_binary_ps = myevaluation.binary_precision_score(nb_y_actual, nb_y_pred)
+    #nb_binary_ps = myevaluation.binary_precision_score(nb_y_actual, nb_y_pred)
     dummy_binary_ps = myevaluation.binary_precision_score(dummy_y_actual, dummy_y_pred)
 
     knn_recall = myevaluation.binary_recall_score(knn_y_actual, knn_y_pred)
-    nb_recall = myevaluation.binary_recall_score(nb_y_actual, nb_y_pred)
+    #nb_recall = myevaluation.binary_recall_score(nb_y_actual, nb_y_pred)
     dummy_recall = myevaluation.binary_recall_score(dummy_y_actual, dummy_y_pred)
 
     knn_f1 = myevaluation.binary_f1_score(knn_y_actual, knn_y_pred)
-    nb_f1 = myevaluation.binary_f1_score(nb_y_actual, nb_y_pred)
+    #nb_f1 = myevaluation.binary_f1_score(nb_y_actual, nb_y_pred)
     dummy_f1 = myevaluation.binary_f1_score(dummy_y_actual, dummy_y_pred)
+    nb_avg_acc, nb_error_rate = 0,0
+    nb_binary_ps, nb_recall, nb_f1 = 0, 0, 0
 
     return knn_avg_acc, knn_error_rate, nb_avg_acc, nb_error_rate, knn_y_actual, knn_y_pred, nb_y_actual, nb_y_pred, knn_binary_ps, nb_binary_ps, knn_recall, nb_recall, knn_f1, nb_f1, dummy_avg_acc, dummy_error_rate, dummy_binary_ps, dummy_recall, dummy_f1, dummy_y_actual, dummy_y_pred
 
