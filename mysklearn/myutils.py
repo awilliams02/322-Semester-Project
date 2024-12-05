@@ -415,5 +415,32 @@ def tree_classifier_train_all(X, y, header):
     mytree.fit(X, y)
     return mytree
 
+def forest_classifier(X, y):
+    folds = myevaluation.kfold_split(X, n_splits=10, random_state = 1, shuffle = True)
+    tree_accuracy = []
+    y_actual = []
+    y_pred = []
+    mytree = myclassifiers.MyRandomForestClassifier()
+    
+    for i in range(len(folds)):
+        X_train, X_test, y_train, y_test = get_train_test_data(X, y, folds[i])
+
+        
+        mytree.fit(X_train, y_train)
+        y_pred = mytree.predict(X_test)
+        tree_accuracy.append(myevaluation.accuracy_score(y_pred, y_test))
+        for i in range(len(y_test)):
+            y_actual.append(y_test[i])
+            y_pred.append(y_pred[i])
+        
+    tree_avg_acc = compute_mean(tree_accuracy)
+    tree_error_rate = 1 - tree_avg_acc
+
+    tree_binary_ps = myevaluation.binary_precision_score(y_actual, y_pred)
+    tree_recall = myevaluation.binary_recall_score(y_actual, y_pred)
+    tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred)
+
+    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred
+
 
         
