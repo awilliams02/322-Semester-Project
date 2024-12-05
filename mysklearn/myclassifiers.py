@@ -495,7 +495,7 @@ class MyRandomForestClassifier:
             https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
     """
 
-    def __init__(self, n_estimators=100, max_features=None, bootstrap=True):
+    def __init__(self, n_estimators=20, max_features=None, bootstrap=True):
         """Initializer for MyRandomForestClassifier.
 
         Args:
