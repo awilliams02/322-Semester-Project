@@ -476,3 +476,97 @@ class MyDecisionTreeClassifier:
             You will need to install graphviz in the Docker container as shown in class to complete this method.
         """
         pass # TODO: (BONUS) fix this
+
+class MyRandomForestClassifier:
+    """Represents a random forest classifier.
+
+    Attributes:
+        n_estimators (int): The number of decision trees in the forest.
+        max_features (int): The maximum number of features to consider when splitting.
+        bootstrap (bool): Whether to use bootstrap samples for training the trees.
+        trees (list of MyDecisionTreeClassifier): The individual decision tree classifiers.
+        X_train (list of list of obj): The list of training instances (samples).
+                The shape of X_train is (n_train_samples, n_features).
+        y_train (list of obj): The target y values (parallel to X_train).
+                The shape of y_train is n_train_samples.
+    
+    Notes:
+        Loosely based on sklearn's RandomForestClassifier:
+            https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+    """
+
+    def __init__(self, n_estimators=10, max_features=None, bootstrap=True):
+        """Initializer for MyRandomForestClassifier.
+
+        Args:
+            n_estimators (int): Number of decision trees in the forest.
+            max_features (int or None): Maximum number of features to consider for splits. 
+                Defaults to None (all features considered).
+            bootstrap (bool): Whether to use bootstrap samples for training the trees.
+        """
+        self.n_estimators = n_estimators
+        self.max_features = max_features
+        self.bootstrap = bootstrap
+        self.trees = []
+        self.X_train = None
+        self.y_train = None
+
+    def fit(self, X_train, y_train):
+        """Fits the random forest classifier to the training data.
+
+        Args:
+            X_train (list of list of obj): The list of training instances.
+            y_train (list of obj): The target values.
+        
+        Notes:
+            For each tree, a bootstrap sample is drawn from the training data if bootstrap=True.
+            Each tree is trained on a random subset of features (controlled by max_features).
+        """
+        self.X_train = X_train
+        self.y_train = y_train
+        n_samples = len(X_train)
+        n_features = len(X_train[0])
+        max_features = self.max_features or n_features
+
+        for _ in range(self.n_estimators):
+            # Bootstrap sample
+            if self.bootstrap:
+                sample_indices = np.random.choice(n_samples, size=n_samples, replace=True)
+                X_sample = [X_train[i] for i in sample_indices]
+                y_sample = [y_train[i] for i in sample_indices]
+            else:
+                X_sample, y_sample = X_train, y_train
+
+            # Random subset of features
+            feature_indices = np.random.choice(n_features, size=max_features, replace=False)
+            X_sample = [[x[i] for i in feature_indices] for x in X_sample]
+
+            # Train a decision tree
+            tree = MyDecisionTreeClassifier([f"att{i}" for i in feature_indices])
+            tree.fit(X_sample, y_sample)
+            self.trees.append((tree, feature_indices))
+
+    def predict(self, X_test):
+        """Makes predictions for the test data.
+
+        Args:
+            X_test (list of list of obj): The list of test instances.
+
+        Returns:
+            y_predicted (list of obj): The predicted target values.
+        """
+        predictions = []
+
+        for tree, feature_indices in self.trees:
+            # Restrict test data to the tree's features
+            X_subset = [[x[i] for i in feature_indices] for x in X_test]
+            predictions.append(tree.predict(X_subset))
+
+        # Combine predictions by majority vote
+        y_predicted = []
+        for i in range(len(X_test)):
+            votes = [pred[i] for pred in predictions]
+            majority_vote = Counter(votes).most_common(1)[0][0]
+            y_predicted.append(majority_vote)
+
+        return y_predicted
