@@ -388,6 +388,7 @@ def tree_classifier(X, y, header):
     tree_accuracy = []
     y_actual = []
     y_pred = []
+    y_pred_full = []
     mytree = myclassifiers.MyDecisionTreeClassifier(header)
     
     for i in range(len(folds)):
@@ -399,16 +400,16 @@ def tree_classifier(X, y, header):
         tree_accuracy.append(myevaluation.accuracy_score(y_pred, y_test))
         for i in range(len(y_test)):
             y_actual.append(y_test[i])
-            y_pred.append(y_pred[i])
+            y_pred_full.append(y_pred[i])
         
     tree_avg_acc = compute_mean(tree_accuracy)
     tree_error_rate = 1 - tree_avg_acc
 
-    tree_binary_ps = myevaluation.binary_precision_score(y_actual, y_pred)
-    tree_recall = myevaluation.binary_recall_score(y_actual, y_pred)
-    tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred)
+    tree_binary_ps = myevaluation.binary_precision_score(y_actual, y_pred_full)
+    tree_recall = myevaluation.binary_recall_score(y_actual, y_pred_full)
+    tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred_full)
 
-    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred
+    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred_full
 
 def tree_classifier_train_all(X, y, header):
     mytree = myclassifiers.MyDecisionTreeClassifier(header)
@@ -420,6 +421,7 @@ def forest_classifier(X, y):
     tree_accuracy = []
     y_actual = []
     y_pred = []
+    y_pred_full = []
     mytree = myclassifiers.MyRandomForestClassifier()
     
     for i in range(len(folds)):
@@ -431,16 +433,16 @@ def forest_classifier(X, y):
         tree_accuracy.append(myevaluation.accuracy_score(y_pred, y_test))
         for i in range(len(y_test)):
             y_actual.append(y_test[i])
-            y_pred.append(y_pred[i])
+            y_pred_full.append(y_pred[i])
         
     tree_avg_acc = compute_mean(tree_accuracy)
     tree_error_rate = 1 - tree_avg_acc
 
-    tree_binary_ps = myevaluation.binary_precision_score(y_actual, y_pred)
-    tree_recall = myevaluation.binary_recall_score(y_actual, y_pred)
-    tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred)
+    tree_binary_ps = myevaluation.binary_precision_score(y_actual, y_pred_full)
+    tree_recall = myevaluation.binary_recall_score(y_actual, y_pred_full)
+    tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred_full)
 
-    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred
+    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred_full
 
 
         

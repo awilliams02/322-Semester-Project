@@ -495,7 +495,7 @@ class MyRandomForestClassifier:
             https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
     """
 
-    def __init__(self, n_estimators=60, max_features=None, bootstrap=True):
+    def __init__(self, n_estimators=100, max_features=None, bootstrap=True):
         """Initializer for MyRandomForestClassifier.
 
         Args:
@@ -567,6 +567,8 @@ class MyRandomForestClassifier:
         for i in range(len(X_test)):
             votes = [pred[i] for pred in predictions]
             majority_vote = Counter(votes).most_common(1)[0][0]
+            if majority_vote is None:
+                majority_vote = self.y_train[0]
             y_predicted.append(majority_vote)
 
         return y_predicted
