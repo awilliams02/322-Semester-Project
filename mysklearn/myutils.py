@@ -30,7 +30,7 @@ def run_all():
 #scatter_pairs = [('PSS_score', 'screen_on_time'), ('PSS_score', 'sleep_duration'), ('PSS_score', 'wake_time'), ('PSS_score', 'sleep_time')]
     scatter_pairs = [('screen_on_time', 'PSS_score'), ('num_sms', 'PSS_score'), ('num_calls', 'PSS_score'), ('sleep_time', 'PSS_score')]
 # Plot scatter plots for the selected pairs
-    plot_scatterplots(myTable, scatter_pairs)
+    #plot_scatterplots(myTable, scatter_pairs)
     # Read and process the CSV file
     with open("cleaned_data.csv") as file: 
         data = [line.strip().split(",") for line in file.readlines()]
