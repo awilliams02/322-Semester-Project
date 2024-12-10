@@ -51,6 +51,26 @@ def run_all():
 # Call the function
     plot_frequency_diagram(pss_scores, labels, "Frequency of PSS Scores")
 #Pull 650 of each classification to use for random forest classifer
+    stress_data = MyPyTable()
+    stress_data.load_from_file("cleaned_data.csv")
+
+# delete 700 high
+# delete 300 low
+
+    rows_with_high = [row for row in stress_data.data if row[2] == "high"]
+    rows_to_drop = random.sample(rows_with_high, k=650)
+    stress_data.data = [row for row in stress_data.data if row not in rows_to_drop]
+    rows_with_low = [row for row in stress_data.data if row[2] == "low"]
+    rows_to_drop = random.sample(rows_with_low, k=275)
+    stress_data.data = [row for row in stress_data.data if row not in rows_to_drop]
+
+    pss_scores = stress_data.get_column(2)
+
+# Define labels for the bar chart
+    labels = ["high", "low", "moderate"]
+
+# Call the function
+    plot_frequency_diagram(pss_scores, labels, "Frequency of PSS Scores After Balancing")
 def plot_histograms(data, attributes):
     plt.figure(figsize=(15, 10))
     for i, attr in enumerate(attributes):
