@@ -1,8 +1,8 @@
 ##############################################
-# Programmer: Alexa Williams
+# Programmer: Alexa Williams and Mia Procel
 # Class: CptS 322-01, Fall 2024
-# Programming Assignment #7
-# 11/11/2024
+# Stress Detection
+# 12/9/2024
 # 
 # Description: This file contains some 
 #   utility functions needed for 
