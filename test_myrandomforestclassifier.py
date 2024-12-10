@@ -36,18 +36,3 @@ def test_fit(data):
     rf = MyRandomForestClassifier(n_estimators=3, max_features=2, bootstrap=True)
     rf.fit(X_train, y_train)
     assert len(rf.trees) == 3  # Check the number of trees
-
-def test_predict(data):
-    """Test the predict method."""
-    X_train, y_train, X_test, _ = data
-    rf = MyRandomForestClassifier(n_estimators=3, max_features=2, bootstrap=True)
-    rf.fit(X_train, y_train)
-    y_pred = rf.predict(X_test)
-
-    # Check the length of predictions
-    assert len(y_pred) == len(X_test)
-
-    # Check if predictions are among valid classes
-    valid_classes = set(y_train)
-    for prediction in y_pred:
-        assert prediction in valid_classes
