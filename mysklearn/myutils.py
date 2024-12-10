@@ -442,7 +442,7 @@ def forest_classifier(X, y):
     tree_recall = myevaluation.binary_recall_score(y_actual, y_pred_full)
     tree_f1 = myevaluation.binary_f1_score(y_actual, y_pred_full)
 
-    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred_full
+    return tree_avg_acc, tree_error_rate, tree_binary_ps, tree_recall, tree_f1, y_actual, y_pred_full, mytree
 
 
         
